@@ -19,13 +19,21 @@ public class Tower : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        m_timer += Time.deltaTime;
-        
+        DetectEnemy();
+
+        if(m_timer < m_towerDefinition.RateOfFire)
+            m_timer += Time.deltaTime;
+        if(m_timer >= m_towerDefinition.RateOfFire && m_closestEnemy != null)
+        {
+            Shoot();
+            m_timer = 0;
+        }
     }
 
     private void Shoot()
     {
-
+        GameObject projectile = ObjectPooler.Instance.SpawnFromPool(m_towerDefinition.ProjectileDefinition.Name, transform.position, Quaternion.identity);
+        StartCoroutine(projectile.GetComponent<Projectile>().Shoot(m_closestEnemy.transform));
     }
 
     private void DetectEnemy()
@@ -69,7 +77,7 @@ public class Tower : MonoBehaviour
     }
 
     private void OnDrawGizmosSelected() {
-        Handles.color = new Color(0.7f, 0.5f, 0.2f, 0.3f);
-        Gizmos.DrawSphere(transform.position, m_towerDefinition.Range);
+        Gizmos.color = new Color(0.7f, 0.5f, 0.2f, 0.3f);
+        Gizmos.DrawWireSphere(transform.position, m_towerDefinition.Range);
     }
 }

@@ -135,5 +135,13 @@ namespace Row.Utils
             await System.Threading.Tasks.Task.Delay(delay);
             action?.Invoke();
         }
+
+        public static float InverseVector3Lerp(Vector3 a, Vector3 b, Vector3 value)
+        {
+            Vector3 AB = b - a;
+            Vector3 AV = value - a;
+
+            return Vector3.Dot(AV,AB) / Vector3.Dot(AB, AB);
+        }
     }
 }

@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(fileName = "Projectile", menuName = "BudgetDefence/Projectile")]
 public class ProjectileDefinition : ScriptableObject
 {
     public string Name;
-    AnimationCurve ProjectilePath;
+    public float speed;
+    public AnimationCurve ProjectilePath;
 }
