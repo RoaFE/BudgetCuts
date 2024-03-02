@@ -33,7 +33,7 @@ public class Tower : MonoBehaviour
     private void Shoot()
     {
         GameObject projectile = ObjectPooler.Instance.SpawnFromPool(m_towerDefinition.ProjectileDefinition.Name, transform.position, Quaternion.identity);
-        StartCoroutine(projectile.GetComponent<Projectile>().Shoot(m_closestEnemy.transform));
+        StartCoroutine(projectile.GetComponent<Projectile>().Shoot(m_closestEnemy));
     }
 
     private void DetectEnemy()

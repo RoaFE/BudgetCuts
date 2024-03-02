@@ -6,6 +6,7 @@ using UnityEngine;
 public class ProjectileDefinition : ScriptableObject
 {
     public string Name;
-    public float speed;
+    public float Speed;
     public AnimationCurve ProjectilePath;
+    public int Damage;
 }
