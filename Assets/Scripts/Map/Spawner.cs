@@ -7,9 +7,10 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class Spawner : MonoBehaviour
 {
-    [SerializeField] private Wave m_waves;
+    [SerializeField] private Wave[] m_waves;
 
     private int m_waveIndex;
+    [SerializeField]
     private List<Vector3> m_points;
     public List<Vector3> Points => m_points;
 
@@ -41,9 +42,26 @@ public class Spawner : MonoBehaviour
         
     }
 
+    [ContextMenu("SpawnWave")]
     public void SpawnWave()
     {
-        
+        StartCoroutine(SpawnWaveCoroutine());
+    }
+    public IEnumerator SpawnWaveCoroutine()
+    {
+        Wave waveEntry = m_waves[m_waveIndex];
+        for(int i = 0; i < waveEntry.WaveEntries.Length; i++)
+        {
+            int count = waveEntry.WaveEntries[i].Count;
+            string name = waveEntry.WaveEntries[i].Enemy.Name;
+            for (int j = 0; j < count; j++)
+            {
+                yield return new WaitForSeconds(0.5f);
+                GameObject gameObject = ObjectPooler.Instance.SpawnFromPool(name, m_points[0], Quaternion.identity);
+                gameObject.GetComponent<Enemy>().Spawn(m_points);
+            }
+        }
+        m_waveIndex = m_waveIndex % (m_waves.Length + 1);
     }
 
     public void Remove()

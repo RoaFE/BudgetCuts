@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: TestProjectilePool
+  m_Script: {fileID: 11500000, guid: e8a1c6d3d18e88247a8b4b3845022298, type: 3}
+  m_Name: TestProjectilePool 1
   m_EditorClassIdentifier: Assembly-CSharp::PoolObject
   tag: Test
   prefab: {fileID: 2362010809253575791, guid: c3843a23e36064049a7f776488fcea3b, type: 3}

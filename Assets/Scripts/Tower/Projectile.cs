@@ -10,12 +10,15 @@ public class Projectile : MonoBehaviour
     {
         Vector3 startPos = transform.position;
         Vector3 position = startPos;
+        Vector3 enemyPos = enemy.transform.position;
         float t = 0;
         //v = d / t
         while (t < 1)
         {
-            position = Vector3.MoveTowards(position, enemy.transform.position, m_definition.Speed * Time.deltaTime);
-            t = Utils.InverseVector3Lerp(startPos, enemy.transform.position, position);
+            if (enemy.gameObject.activeInHierarchy)
+                enemyPos = enemy.transform.position;
+            position = Vector3.MoveTowards(position, enemyPos, m_definition.Speed * Time.deltaTime);
+            t = Utils.InverseVector3Lerp(startPos, enemyPos, position);
             float y = position.y + m_definition.ProjectilePath.Evaluate(t);
 
             transform.position = position + (Vector3.up * y);

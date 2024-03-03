@@ -11,15 +11,41 @@ public class Enemy : MonoBehaviour
     [SerializeField] private uint m_damage;
 
     //Path
+    private List<Vector3> m_currentPath;
+    private int m_pathIndex = 0;
+    public void Spawn(List<Vector3> path)
+    {
+        m_currentPath = path;
+        m_pathIndex = 0;
+
+    }
 
     public void Init()
     {
         m_health = m_enemyDefinition.Health;
     }
+    
+
+    private void Update() {
+        if(gameObject.activeInHierarchy)
+        {
+            Move();
+        }
+    }
 
     public void Move()
     {
-        throw new NotImplementedException();
+        float speed = m_enemyDefinition.Speed;
+        if((transform.position - m_currentPath[m_pathIndex]).sqrMagnitude < 9)
+        {
+            m_pathIndex++;
+            if(m_pathIndex == m_currentPath.Count)
+            {
+                gameObject.SetActive(false);
+            }
+        }
+        Vector3 newPos = Vector3.MoveTowards(transform.position, m_currentPath[m_pathIndex], speed * Time.deltaTime);
+        transform.position = newPos;
     }
 
     public void Damage(int amount)
@@ -29,6 +55,7 @@ public class Enemy : MonoBehaviour
         {
             //Die
             gameObject.SetActive(false);
+            transform.position = m_currentPath[0];
         }
     }
 }

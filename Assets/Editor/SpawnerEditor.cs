@@ -34,6 +34,7 @@ public class SpawnerEditor : Editor {
 
     public void OnSceneGUI()
     {
+        m_target = (Spawner)target;
         EditorGUI.BeginChangeCheck();
         if(m_target.Points == null)
         {
