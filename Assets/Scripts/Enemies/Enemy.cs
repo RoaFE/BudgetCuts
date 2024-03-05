@@ -54,8 +54,21 @@ public class Enemy : MonoBehaviour
         if(m_health < 0)
         {
             //Die
-            gameObject.SetActive(false);
-            transform.position = m_currentPath[0];
+            Die();
         }
+    }
+
+    public void HitPlayer()
+    {
+        //DoDamage to player
+        //Die
+        Die();
+    }
+
+    private void Die()
+    {
+        gameObject.SetActive(false);
+        transform.position = m_currentPath[0];
+        LevelManager.Instance.EnemyDestroyed();
     }
 }

@@ -84,7 +84,7 @@ public class CameraController : MonoBehaviour
     //Handle the input from the mouse
     void HandleMouseInput()
     {
-        Cursor.visible = Input.GetMouseButton(1);
+        Cursor.visible = !Input.GetMouseButton(1);
         //Scroll wheel is used to zoom
         if (Input.mouseScrollDelta.y != 0)
         {

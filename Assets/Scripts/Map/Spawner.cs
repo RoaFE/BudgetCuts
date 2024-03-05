@@ -14,7 +14,6 @@ public class Spawner : MonoBehaviour
     private List<Vector3> m_points;
     public List<Vector3> Points => m_points;
 
-    
     // Start is called before the first frame update
     private void OnEnable() {
         if(m_points == null)
@@ -43,9 +42,17 @@ public class Spawner : MonoBehaviour
     }
 
     [ContextMenu("SpawnWave")]
-    public void SpawnWave()
+    public int SpawnWave(int round = 0)
     {
+        m_waveIndex = round;
         StartCoroutine(SpawnWaveCoroutine());
+        int enemies = 0;
+        Wave waveEntry = m_waves[m_waveIndex];
+        for (int i = 0; i < waveEntry.WaveEntries.Length; i++)
+        {
+            enemies += waveEntry.WaveEntries[i].Count;
+        }
+        return enemies;
     }
     public IEnumerator SpawnWaveCoroutine()
     {
@@ -61,7 +68,7 @@ public class Spawner : MonoBehaviour
                 gameObject.GetComponent<Enemy>().Spawn(m_points);
             }
         }
-        m_waveIndex = m_waveIndex % (m_waves.Length + 1);
+        // m_waveIndex = m_waveIndex % (m_waves.Length + 1);
     }
 
     public void Remove()

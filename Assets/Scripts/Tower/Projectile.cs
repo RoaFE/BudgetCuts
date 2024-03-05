@@ -24,7 +24,10 @@ public class Projectile : MonoBehaviour
             transform.position = position + (Vector3.up * y);
             yield return null;
         }
-        enemy.Damage(m_definition.Damage);
+        if (enemy.gameObject.activeInHierarchy)
+            enemy.Damage(m_definition.Damage);
+
+        
         gameObject.SetActive(false);
 
     }

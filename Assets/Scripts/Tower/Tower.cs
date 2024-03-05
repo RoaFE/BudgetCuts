@@ -5,15 +5,17 @@ using UnityEngine;
 
 public class Tower : MonoBehaviour
 {
+    private TowerMenuViewController m_viewController;
     [SerializeField] private TowerDefinition m_towerDefinition;
+    public TowerDefinition TowerDefinition => m_towerDefinition;
 
     private Enemy m_closestEnemy;
 
     private float m_timer;
     // Start is called before    the first frame update
-    void Start()
+    void Awake()
     {
-        
+        m_viewController = FindObjectOfType<TowerMenuViewController>();
     }
 
     // Update is called once per frame
@@ -34,6 +36,21 @@ public class Tower : MonoBehaviour
     {
         GameObject projectile = ObjectPooler.Instance.SpawnFromPool(m_towerDefinition.ProjectileDefinition.Name, transform.position, Quaternion.identity);
         StartCoroutine(projectile.GetComponent<Projectile>().Shoot(m_closestEnemy));
+    }
+
+    private void OnMouseDown() {
+        m_viewController.Disable();
+        m_viewController.Enable(this);
+    }
+
+    public void OnUpgrade(int index = 0)
+    {
+
+    }
+
+    public void OnDowngrade()
+    {
+
     }
 
     private void DetectEnemy()
