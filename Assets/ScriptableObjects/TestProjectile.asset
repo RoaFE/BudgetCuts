@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: TestProjectile
   m_EditorClassIdentifier: 
   Name: Test
-  Speed: 5
+  Speed: 10
   ProjectilePath:
     serializedVersion: 2
     m_Curve:

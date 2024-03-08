@@ -27,17 +27,24 @@ public class TowerMenuViewController : MonoBehaviour
     public void Enable(Tower tower)
     {
         gameObject.SetActive(true);
-        m_titleText.SetText(tower.TowerDefinition.Name);
+        m_titleText.SetText($"{tower.TowerDefinition.Name}- Upkeep:{tower.TowerDefinition.UpKeep}");
         m_downgrade.gameObject.SetActive(tower.TowerDefinition.DowngradeTower != null);
         m_downgrade.onClick.AddListener(tower.OnDowngrade);
         m_upgradeButtons = new List<Button>(tower.TowerDefinition.UpgradeTowers.Length);
         for(int i = 0; i < tower.TowerDefinition.UpgradeTowers.Length; i++)
         {
             Button button = Instantiate(m_upgradePrefab, m_upgradeParent).GetComponent<Button>();
-            button.onClick.AddListener(() => tower.OnUpgrade(i));
+            AssignUpgradeCallback(button, i, tower);
+            button.interactable = LevelManager.Instance.CanBuy(tower.TowerDefinition.UpgradeTowers[i].Cost);
+            string buttonText = $"{tower.TowerDefinition.UpgradeTowers[i].Name} : {tower.TowerDefinition.UpgradeTowers[i].Cost}";
             m_upgradeButtons.Add(button);
-            button.GetComponent<TextMeshProUGUI>()?.SetText($"{tower.TowerDefinition.UpgradeTowers[i].Name}");
+            button.GetComponentInChildren<TextMeshProUGUI>()?.SetText(buttonText);
         }
+    }
+
+    private void AssignUpgradeCallback(Button button , int i, Tower tower)
+    {
+        button.onClick.AddListener(() => tower.OnUpgrade(i));
     }
 
     
@@ -45,11 +52,14 @@ public class TowerMenuViewController : MonoBehaviour
     {
         gameObject.SetActive(false);
         m_downgrade.onClick.RemoveAllListeners();
-        foreach(Button button in m_upgradeButtons)
+        if (m_upgradeButtons != null)
         {
-            Destroy(button.gameObject);
+            foreach (Button button in m_upgradeButtons)
+            {
+                Destroy(button.gameObject);
+            }
+            m_upgradeButtons.Clear();
         }
-        m_upgradeButtons.Clear();
         m_upgradeButtons = null;
     }
 }

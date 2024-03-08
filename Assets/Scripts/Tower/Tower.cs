@@ -9,13 +9,18 @@ public class Tower : MonoBehaviour
     [SerializeField] private TowerDefinition m_towerDefinition;
     public TowerDefinition TowerDefinition => m_towerDefinition;
 
+    private GameObject m_childObject;
+
     private Enemy m_closestEnemy;
 
     private float m_timer;
     // Start is called before    the first frame update
-    void Awake()
+    public void Initialise()
     {
         m_viewController = FindObjectOfType<TowerMenuViewController>();
+        UpdatePrefab();
+        if(m_towerDefinition)
+            LevelManager.Instance.UpdateUpKeep(m_towerDefinition.UpKeep);
     }
 
     // Update is called once per frame
@@ -45,12 +50,43 @@ public class Tower : MonoBehaviour
 
     public void OnUpgrade(int index = 0)
     {
-
+        if (m_towerDefinition.UpgradeTowers == null)
+            return;
+        if(m_towerDefinition.UpgradeTowers[index] != null)
+        {
+            //Money stuff
+            //...
+            LevelManager.Instance.UpdateMoney(-m_towerDefinition.UpgradeTowers[index].Cost);
+            LevelManager.Instance.UpdateUpKeep(-m_towerDefinition.UpKeep);
+            m_towerDefinition = m_towerDefinition.UpgradeTowers[index];
+            LevelManager.Instance.UpdateUpKeep(m_towerDefinition.UpKeep);
+            UpdatePrefab();
+            m_viewController.Disable();
+            m_viewController.Enable(this);
+        }
     }
 
     public void OnDowngrade()
     {
-
+        if (m_towerDefinition.DowngradeTower == null)
+            return;
+        LevelManager.Instance.UpdateMoney(Mathf.FloorToInt(m_towerDefinition.Cost * 0.8f));
+        LevelManager.Instance.UpdateUpKeep(-m_towerDefinition.UpKeep);
+        m_towerDefinition = m_towerDefinition.DowngradeTower;
+        LevelManager.Instance.UpdateUpKeep(m_towerDefinition.UpKeep);
+        UpdatePrefab();
+        m_viewController.Disable();
+        m_viewController.Enable(this);
+    }
+    
+    private void UpdatePrefab()
+    {
+        if (m_childObject != null)
+            Destroy(m_childObject);
+        if(m_towerDefinition != null)
+        {
+            m_childObject = Instantiate(m_towerDefinition.Prefab, transform);
+        }
     }
 
     private void DetectEnemy()

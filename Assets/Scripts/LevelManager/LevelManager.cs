@@ -18,8 +18,10 @@ public class LevelManager : MonoBehaviour
 
     [SerializeField]
     private int m_enemiesInWave = 0;
+
+    private Tower[] m_towers;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         Instance = this;
         m_income = m_incomeAmounts[m_roundCounter - 1];
@@ -29,6 +31,14 @@ public class LevelManager : MonoBehaviour
         m_viewController.BeginRound.onClick.AddListener(BeginRound);
     }
 
+    void Start()
+    {
+        m_towers = FindObjectsOfType<Tower>();
+        foreach(Tower tower in m_towers)
+        {
+            tower.Initialise();
+        }
+    }    
     // Update is called once per frame
     void Update()
     {
@@ -71,6 +81,17 @@ public class LevelManager : MonoBehaviour
     private void EndGame()
     {
         throw new NotImplementedException();
+    }
+
+    public bool CanBuy(int amount)
+    {
+        return m_money - amount >= 0;
+    }
+
+    public void UpdateUpKeep(int changeAmount)
+    {
+        m_upkeep += changeAmount;
+        UpdateChangeAmount();
     }
 
     public void UpdateMoney(int changeAmount)

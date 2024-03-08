@@ -6,8 +6,8 @@ using UnityEngine;
 public class TowerDefinition : ScriptableObject
 {
     public string Name;
-    public float Cost;
-    public float UpKeep;
+    public int Cost;
+    public int UpKeep;
     public float Range;
     public float RateOfFire;
     public TowerDefinition DowngradeTower;

@@ -41,7 +41,8 @@ public class Enemy : MonoBehaviour
             m_pathIndex++;
             if(m_pathIndex == m_currentPath.Count)
             {
-                gameObject.SetActive(false);
+                HitPlayer();
+                return;
             }
         }
         Vector3 newPos = Vector3.MoveTowards(transform.position, m_currentPath[m_pathIndex], speed * Time.deltaTime);

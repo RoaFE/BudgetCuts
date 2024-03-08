@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6252ccd8124cf774ca7d6b012c9b649b, type: 3}
-  m_Name: TestTower
+  m_Name: ArrowTower_2
   m_EditorClassIdentifier: 
-  Name: TestTower
-  Cost: 100
-  UpKeep: 5
-  Range: 10
-  RateOfFire: 0.4
-  DowngradeTower: {fileID: 0}
+  Name: Arrow Tower +
+  Cost: 250
+  UpKeep: 30
+  Range: 30
+  RateOfFire: 1.4
+  DowngradeTower: {fileID: 11400000, guid: c15e45baf2662074b8da16e14b8ab126, type: 2}
   UpgradeTowers: []
-  Prefab: {fileID: 0}
+  Prefab: {fileID: 919132149155446097, guid: 03b46a4352b0a2e42a9a6e72f6b3acce, type: 3}
   ProjectileDefinition: {fileID: 11400000, guid: f82d7716eacc3f145a7b29bd2d294dd9,
     type: 2}
